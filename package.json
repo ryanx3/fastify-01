@@ -4,6 +4,8 @@
   "main": "server.ts",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "knex": "node --no-warnings --import tsx ./node_modules/knex/bin/cli.js",
+    "migrate": "node --no-warnings --import tsx ./node_modules/knex/bin/cli.js migrate:make -- ",
     "lint": "eslint src --ext .ts --fix"
   },
   "keywords": [],
