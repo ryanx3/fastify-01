@@ -4,14 +4,10 @@ import { knex } from './db'
 const app = fastify()
 
 app.get('/', async () => {
-  const createTransaction = await knex('transactions')
-    .insert({
-      id: crypto.randomUUID(),
-      title: 'Transaction 1',
-      amount: 1000,
-    })
-    .returning('*')
-  return createTransaction
+  const getTransaction = await knex('transactions')
+    .where('amount', 1000)
+    .select('*')
+  return getTransaction
 })
 
 app
