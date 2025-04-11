@@ -42,7 +42,7 @@ export async function TransactionsRoutes(app: FastifyInstance) {
       request.body,
     )
 
-    let sessionId = request.cookies.sessionId
+    let { sessionId } = request.cookies
 
     if (!sessionId) {
       sessionId = randomUUID()
