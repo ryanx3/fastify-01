@@ -5,9 +5,7 @@ import { randomUUID } from 'crypto'
 import { SessionIdExists } from '../middlewares/check-if-session-id-exists'
 
 export async function TransactionsRoutes(app: FastifyInstance) {
-  app.addHook('preHandler', SessionIdExists)
-
-  app.get('/', async (request) => {
+  app.get('/', { preHandler: [SessionIdExists] }, async (request) => {
     const { sessionId } = request.cookies
     const allTransactions = await knex('transactions')
       .select('*')
@@ -17,7 +15,7 @@ export async function TransactionsRoutes(app: FastifyInstance) {
     }
   })
 
-  app.get('/:id', async (request) => {
+  app.get('/:id', { preHandler: [SessionIdExists] }, async (request) => {
     const getTransactionByIdParamsSchema = z.object({
       id: z.string().uuid(),
     })
@@ -36,7 +34,7 @@ export async function TransactionsRoutes(app: FastifyInstance) {
     }
   })
 
-  app.get('/summary', async (request) => {
+  app.get('/summary', { preHandler: [SessionIdExists] }, async (request) => {
     const { sessionId } = request.cookies
     const summary = await knex('transactions')
       .where('session_id', sessionId)
